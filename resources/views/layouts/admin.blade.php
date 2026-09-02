@@ -11,29 +11,32 @@
 </head>
 <body class="font-sans antialiased bg-slate-100">
     <div class="min-h-screen flex">
-        <aside class="w-64 bg-slate-900 text-white flex-shrink-0">
-            <div class="p-4 font-bold text-lg">Aetherian Cargo</div>
+        <aside class="w-64 bg-navy text-white flex-shrink-0">
+            <a href="{{ route('home') }}" class="p-4 flex items-center gap-3 font-bold text-lg">
+                <img src="{{ asset('logo.png') }}" alt="Aetherian Cargo" class="w-8 h-8 rounded">
+                Aetherian Cargo
+            </a>
             <nav class="space-y-1 px-2">
-                <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Dashboard</a>
-                <a href="{{ route('admin.shipments.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Shipments</a>
-                <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Users</a>
-                <a href="{{ route('admin.roles.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Roles</a>
-                <a href="{{ route('admin.branches.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Branches</a>
-                <a href="{{ route('admin.warehouses.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Warehouses</a>
-                <a href="{{ route('admin.drivers.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Drivers</a>
-                <a href="{{ route('admin.vehicles.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Vehicles</a>
-                <a href="{{ route('admin.support-tickets.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Support Tickets</a>
-                <a href="{{ route('admin.contact-messages.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Contact Messages</a>
-                <a href="{{ route('admin.settings.index') }}" class="block px-3 py-2 rounded hover:bg-slate-800">Settings</a>
+                <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded hover:bg-white/10">Dashboard</a>
+                <a href="{{ route('admin.shipments.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Shipments</a>
+                <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Users</a>
+                <a href="{{ route('admin.roles.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Roles</a>
+                <a href="{{ route('admin.branches.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Branches</a>
+                <a href="{{ route('admin.warehouses.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Warehouses</a>
+                <a href="{{ route('admin.drivers.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Drivers</a>
+                <a href="{{ route('admin.vehicles.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Vehicles</a>
+                <a href="{{ route('admin.support-tickets.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Support Tickets</a>
+                <a href="{{ route('admin.contact-messages.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Contact Messages</a>
+                <a href="{{ route('admin.settings.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Settings</a>
             </nav>
         </aside>
 
         <div class="flex-1 flex flex-col">
             <header class="bg-white shadow px-6 py-4 flex justify-between items-center">
-                <h2 class="font-semibold text-xl">@yield('title')</h2>
+                <h2 class="font-semibold text-xl text-navy">@yield('title')</h2>
                 <div class="flex items-center space-x-4">
                     <span class="text-sm text-slate-600">{{ auth()->user()->name }}</span>
-                    <a href="{{ route('home') }}" class="text-sm text-blue-600 hover:underline">View site</a>
+                    <a href="{{ route('home') }}" class="text-sm text-brand-600 hover:underline">View site</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="text-sm text-red-600 hover:underline">Logout</button>
