@@ -16,7 +16,7 @@ Option A: clone from GitHub using the 237host terminal:
 
 ```bash
 cd /home/YOUR_USERNAME/public_html
-git clone --branch laravel --single-branch https://github.com/Mary-6/Tracking.git aetherian-cargo
+git clone --branch laravel --single-branch https://github.com/Mary-6/Track.git aetherian-cargo
 ```
 
 Option B: download the ZIP from GitHub and upload it with cPanel File Manager, then extract it.
