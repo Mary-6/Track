@@ -55,6 +55,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('contact-messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
 
     Route::get('chat', [AdminChatController::class, 'index'])->name('chat.index');
+    Route::get('chat/count', [AdminChatController::class, 'count'])->name('chat.count');
     Route::get('chat/{room}', [AdminChatController::class, 'show'])->name('chat.show');
     Route::post('chat/{room}/reply', [AdminChatController::class, 'reply'])->name('chat.reply');
 });

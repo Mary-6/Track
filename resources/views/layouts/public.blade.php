@@ -39,10 +39,7 @@
                              x-transition:enter-start="opacity-0 -translate-y-2"
                              x-transition:enter-end="opacity-100 translate-y-0">
                             <a href="{{ route('faq') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'faq' ? 'text-accent-500 font-semibold' : '' }}">FAQ</a>
-                            <a href="{{ route('support') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'support' ? 'text-accent-500 font-semibold' : '' }}">Support</a>
                             <a href="{{ route('testimonials') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'testimonials' ? 'text-accent-500 font-semibold' : '' }}">Testimonials</a>
-                            <a href="{{ route('contact') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'contact' ? 'text-accent-500 font-semibold' : '' }}">Contact</a>
-                            <a href="{{ route('track') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'track' ? 'text-accent-500 font-semibold' : '' }}">Track</a>
                         </div>
                     </div>
 

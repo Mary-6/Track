@@ -19,6 +19,18 @@ class AdminChatController extends Controller
         return view('admin.chat.index', compact('rooms'));
     }
 
+    public function count()
+    {
+        $count = ChatRoom::where('status', 'open')
+            ->where(function ($query) {
+                $query->whereHas('lastMessage', fn ($q) => $q->where('is_admin', false))
+                      ->orWhereDoesntHave('lastMessage');
+            })
+            ->count();
+
+        return response()->json(['count' => $count]);
+    }
+
     public function show(ChatRoom $room)
     {
         $room->load(['messages.user']);
