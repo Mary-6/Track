@@ -3,6 +3,7 @@
 @section('title', 'Shipment Details')
 
 @section('content')
+    @php $meta = $shipment->meta ?? []; @endphp
     <div class="bg-white p-6 rounded shadow mb-6">
         <div class="flex justify-between items-start">
             <div>
@@ -38,8 +39,17 @@
             <p><strong>Declared Value:</strong> {{ $shipment->declared_value ?? 'N/A' }} | <strong>Shipping Cost:</strong> {{ $shipment->shipping_cost ?? 'N/A' }} | <strong>Tax:</strong> {{ $shipment->tax ?? 'N/A' }} | <strong>Total:</strong> {{ $shipment->total_cost ?? 'N/A' }}</p>
             <p><strong>Payment Status:</strong> {{ $shipment->payment_status }}</p>
             <p><strong>Branch:</strong> {{ $shipment->branch?->name ?? 'N/A' }} | <strong>Driver:</strong> {{ $shipment->driver?->name ?? 'N/A' }}</p>
+            <p><strong>Qty:</strong> {{ $meta['quantity'] ?? 'N/A' }} | <strong>Piece Type:</strong> {{ $meta['piece_type'] ?? 'N/A' }} | <strong>Package Type:</strong> {{ $meta['package_type'] ?? 'N/A' }} | <strong>Product:</strong> {{ $meta['product'] ?? 'N/A' }}</p>
+            <p><strong>Carrier Ref:</strong> {{ $meta['carrier_reference'] ?? 'N/A' }} | <strong>Payment Mode:</strong> {{ $meta['payment_mode'] ?? 'N/A' }} | <strong>Total Freight:</strong> {{ $meta['total_freight'] ?? 'N/A' }}</p>
+            <p><strong>Current Coordinates:</strong> {{ $meta['current_lat'] ?? 'N/A' }}, {{ $meta['current_lng'] ?? 'N/A' }}</p>
+            <p><strong>Comments:</strong> {{ $meta['comments'] ?? 'N/A' }}</p>
             <p><strong>Notes:</strong> {{ $shipment->notes ?? 'N/A' }}</p>
         </div>
+    </div>
+
+    <div class="bg-white p-6 rounded shadow mb-6">
+        <h3 class="font-bold mb-4">Live Map</h3>
+        <div id="shipment-map" class="w-full h-[400px] rounded border border-slate-200 bg-slate-50 flex items-center justify-center text-slate-500">Loading map...</div>
     </div>
 
     <div class="bg-white p-6 rounded shadow">
@@ -56,4 +66,64 @@
             @endforelse
         </ul>
     </div>
+
+    @push('styles')
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    @endpush
+
+    @push('scripts')
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <script>
+            (function () {
+                async function geocode(query) {
+                    try {
+                        const res = await fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(query) + '&count=1');
+                        const data = await res.json();
+                        if (data && data.results && data.results[0]) {
+                            return { lat: data.results[0].latitude, lng: data.results[0].longitude };
+                        }
+                    } catch (e) { console.error('Geocode error', e); }
+                    return null;
+                }
+
+                function interpolate(start, end, fraction) {
+                    return { lat: start.lat + (end.lat - start.lat) * fraction, lng: start.lng + (end.lng - start.lng) * fraction };
+                }
+
+                const origin = {!! json_encode($shipment->origin ?: ($shipment->sender_country ?: ''), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+                const destination = {!! json_encode($shipment->destination ?: ($shipment->recipient_country ?: ''), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+                const status = {!! json_encode($shipment->status, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+                const currentLat = {!! json_encode($meta['current_lat'] ?? null, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+                const currentLng = {!! json_encode($meta['current_lng'] ?? null, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) !!};
+
+                async function initMap() {
+                    const originCoords = await geocode(origin);
+                    const destCoords = await geocode(destination);
+                    const container = document.getElementById('shipment-map');
+                    if (!originCoords || !destCoords) {
+                        container.innerHTML = 'Could not load map coordinates.';
+                        return;
+                    }
+
+                    let currentCoords = currentLat && currentLng ? { lat: currentLat, lng: currentLng } : null;
+                    if (!currentCoords) {
+                        if (status === 'DELIVERED') currentCoords = destCoords;
+                        else if (status === 'PENDING' || status === 'ON_HOLD') currentCoords = originCoords;
+                        else currentCoords = interpolate(originCoords, destCoords, 0.5);
+                    }
+
+                    const map = L.map(container).setView([currentCoords.lat, currentCoords.lng], 5);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
+
+                    L.marker([originCoords.lat, originCoords.lng]).addTo(map).bindPopup('Origin: ' + origin);
+                    L.marker([destCoords.lat, destCoords.lng]).addTo(map).bindPopup('Destination: ' + destination);
+                    L.marker([currentCoords.lat, currentCoords.lng]).addTo(map).bindPopup('Current location');
+
+                    L.polyline([[originCoords.lat, originCoords.lng], [currentCoords.lat, currentCoords.lng], [destCoords.lat, destCoords.lng]], { color: '#0D7377', weight: 4, opacity: 0.8, dashArray: '8,8' }).addTo(map);
+                }
+
+                initMap();
+            })();
+        </script>
+    @endpush
 @endsection

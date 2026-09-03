@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TrackController;
+use App\Http\Controllers\Admin\AdminChatController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -26,9 +28,15 @@ Route::get('/services', [PageController::class, 'services'])->name('services');
 Route::get('/faq', [PageController::class, 'faq'])->name('faq');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
 Route::post('/contact', [PageController::class, 'contactStore'])->name('contact.store');
+Route::get('/support', [PageController::class, 'support'])->name('support');
+Route::post('/support', [PageController::class, 'supportStore'])->name('support.store');
+Route::get('/testimonials', [PageController::class, 'testimonials'])->name('testimonials');
 Route::get('/terms', [PageController::class, 'terms'])->name('terms');
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/cookies', [PageController::class, 'cookies'])->name('cookies');
+
+Route::get('/chat/messages', [ChatController::class, 'messages'])->name('chat.messages');
+Route::post('/chat/messages', [ChatController::class, 'store'])->name('chat.store');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -45,6 +53,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('contact-messages', [ContactMessageController::class, 'index'])->name('contact-messages.index');
     Route::get('contact-messages/{contactMessage}', [ContactMessageController::class, 'show'])->name('contact-messages.show');
     Route::delete('contact-messages/{contactMessage}', [ContactMessageController::class, 'destroy'])->name('contact-messages.destroy');
+
+    Route::get('chat', [AdminChatController::class, 'index'])->name('chat.index');
+    Route::get('chat/{room}', [AdminChatController::class, 'show'])->name('chat.show');
+    Route::post('chat/{room}/reply', [AdminChatController::class, 'reply'])->name('chat.reply');
 });
 
 Route::get('/dashboard', function () {

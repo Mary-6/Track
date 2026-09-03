@@ -34,6 +34,7 @@ class Shipment extends Model
         'total_cost',
         'payment_status',
         'notes',
+        'meta',
         'branch_id',
         'driver_id',
         'shipped_at',
@@ -48,6 +49,7 @@ class Shipment extends Model
         'total_cost' => 'decimal:2',
         'shipped_at' => 'datetime',
         'delivered_at' => 'datetime',
+        'meta' => 'array',
     ];
 
     public function creator()

@@ -60,6 +60,35 @@
     </div>
 </div>
 
+@php
+$meta = old('meta', $shipment->meta ?? []);
+@endphp
+
+<div class="mt-6">
+    <h3 class="font-bold mb-2">Package Details</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="mb-3"><label class="block text-sm">Qty</label><input type="text" name="meta[quantity]" value="{{ $meta['quantity'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Piece Type</label><input type="text" name="meta[piece_type]" value="{{ $meta['piece_type'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Package Type</label><input type="text" name="meta[package_type]" value="{{ $meta['package_type'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Product</label><input type="text" name="meta[product]" value="{{ $meta['product'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Carrier Reference No.</label><input type="text" name="meta[carrier_reference]" value="{{ $meta['carrier_reference'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Type of Shipment</label><input type="text" name="meta[shipment_type]" value="{{ $meta['shipment_type'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Payment Mode</label><input type="text" name="meta[payment_mode]" value="{{ $meta['payment_mode'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Total Freight</label><input type="number" step="0.01" name="meta[total_freight]" value="{{ $meta['total_freight'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Currency</label><input type="text" name="meta[currency]" value="{{ $meta['currency'] ?? 'USD' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Length (cm)</label><input type="number" step="0.01" name="meta[length_cm]" value="{{ $meta['length_cm'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Width (cm)</label><input type="number" step="0.01" name="meta[width_cm]" value="{{ $meta['width_cm'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Height (cm)</label><input type="number" step="0.01" name="meta[height_cm]" value="{{ $meta['height_cm'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Pick-up Date</label><input type="date" name="meta[pickup_date]" value="{{ $meta['pickup_date'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Pick-up Time</label><input type="time" name="meta[pickup_time]" value="{{ $meta['pickup_time'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Departure Time</label><input type="time" name="meta[departure_time]" value="{{ $meta['departure_time'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Estimated Delivery</label><input type="date" name="meta[estimated_delivery]" value="{{ $meta['estimated_delivery'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Current Lat</label><input type="number" step="any" name="meta[current_lat]" value="{{ $meta['current_lat'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Current Lng</label><input type="number" step="any" name="meta[current_lng]" value="{{ $meta['current_lng'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+        <div class="mb-3"><label class="block text-sm">Comments</label><input type="text" name="meta[comments]" value="{{ $meta['comments'] ?? '' }}" class="w-full border rounded px-3 py-2"></div>
+    </div>
+</div>
+
 <div class="mt-4 mb-3"><label class="block text-sm">Notes</label><textarea name="notes" class="w-full border rounded px-3 py-2" rows="3">{{ old('notes', $shipment->notes ?? '') }}</textarea></div>
 
 <div class="mt-6">

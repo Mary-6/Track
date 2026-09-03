@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="font-sans antialiased bg-slate-100">
     <div class="min-h-screen flex">
@@ -27,6 +28,7 @@
                 <a href="{{ route('admin.vehicles.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Vehicles</a>
                 <a href="{{ route('admin.support-tickets.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Support Tickets</a>
                 <a href="{{ route('admin.contact-messages.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Contact Messages</a>
+                <a href="{{ route('admin.chat.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Live Chat</a>
                 <a href="{{ route('admin.settings.index') }}" class="block px-3 py-2 rounded hover:bg-white/10">Settings</a>
             </nav>
         </aside>
@@ -55,5 +57,6 @@
             </main>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

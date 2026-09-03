@@ -54,10 +54,12 @@ class ShipmentController extends Controller
             'branch_id' => 'nullable|exists:branches,id',
             'driver_id' => 'nullable|exists:drivers,id',
             'status' => 'required|string|max:50',
+            'meta' => 'nullable|array',
         ]);
 
         $data['tracking_number'] = $this->generateTrackingNumber();
         $data['created_by'] = auth()->id();
+        $data['meta'] = $request->input('meta', []);
 
         $shipment = Shipment::create($data);
 
@@ -113,7 +115,13 @@ class ShipmentController extends Controller
             'branch_id' => 'nullable|exists:branches,id',
             'driver_id' => 'nullable|exists:drivers,id',
             'status' => 'required|string|max:50',
+            'meta' => 'nullable|array',
         ]);
+
+        $data['meta'] = $request->input('meta', []);
+        if (! $data['meta'] && $shipment->meta) {
+            $data['meta'] = $shipment->meta;
+        }
 
         $oldStatus = $shipment->status;
         $shipment->update($data);

@@ -8,12 +8,13 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="font-sans antialiased bg-white text-slate-900 overflow-x-hidden">
     <header class="bg-navy text-white sticky top-0 z-50">
         <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <a href="{{ route('home') }}" class="flex items-center gap-2 font-bold text-xl shrink-0">
+                <a href="{{ url('/') }}" class="flex items-center gap-2 font-bold text-xl shrink-0">
                     <img src="{{ asset('logo.png') }}" alt="{{ config('app.name') }}" class="w-8 h-8 rounded">
                     <span class="hidden sm:inline">{{ config('app.name') }}</span>
                     <span class="sm:hidden">Aetherian</span>
@@ -23,7 +24,7 @@
                     @php
                         $current = request()->path();
                     @endphp
-                    <a href="{{ route('home') }}" class="text-sm font-semibold uppercase tracking-wider transition-colors {{ $current == '/' ? 'text-accent-500' : 'text-slate-300 hover:text-white' }}">Home</a>
+                    <a href="{{ url('/') }}" class="text-sm font-semibold uppercase tracking-wider transition-colors {{ $current == '/' ? 'text-accent-500' : 'text-slate-300 hover:text-white' }}">Home</a>
                     <a href="{{ route('about') }}" class="text-sm font-semibold uppercase tracking-wider transition-colors {{ $current == 'about' ? 'text-accent-500' : 'text-slate-300 hover:text-white' }}">About</a>
                     <a href="{{ route('services') }}" class="text-sm font-semibold uppercase tracking-wider transition-colors {{ $current == 'services' ? 'text-accent-500' : 'text-slate-300 hover:text-white' }}">Services</a>
 
@@ -38,6 +39,8 @@
                              x-transition:enter-start="opacity-0 -translate-y-2"
                              x-transition:enter-end="opacity-100 translate-y-0">
                             <a href="{{ route('faq') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'faq' ? 'text-accent-500 font-semibold' : '' }}">FAQ</a>
+                            <a href="{{ route('support') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'support' ? 'text-accent-500 font-semibold' : '' }}">Support</a>
+                            <a href="{{ route('testimonials') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'testimonials' ? 'text-accent-500 font-semibold' : '' }}">Testimonials</a>
                             <a href="{{ route('contact') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'contact' ? 'text-accent-500 font-semibold' : '' }}">Contact</a>
                             <a href="{{ route('track') }}" class="block px-4 py-2 text-sm hover:bg-slate-100 {{ $current == 'track' ? 'text-accent-500 font-semibold' : '' }}">Track</a>
                         </div>
@@ -71,11 +74,13 @@
             </div>
 
             <div id="mobile-menu" class="hidden lg:hidden pb-6 space-y-4 border-t border-white/10 pt-4">
-                <a href="{{ route('home') }}" class="block text-slate-300 hover:text-white">Home</a>
+                <a href="{{ url('/') }}" class="block text-slate-300 hover:text-white">Home</a>
                 <a href="{{ route('about') }}" class="block text-slate-300 hover:text-white">About</a>
                 <a href="{{ route('services') }}" class="block text-slate-300 hover:text-white">Services</a>
                 <a href="{{ route('contact') }}" class="block text-slate-300 hover:text-white">Contact</a>
                 <a href="{{ route('faq') }}" class="block text-slate-300 hover:text-white">FAQ</a>
+                <a href="{{ route('support') }}" class="block text-slate-300 hover:text-white">Support</a>
+                <a href="{{ route('testimonials') }}" class="block text-slate-300 hover:text-white">Testimonials</a>
                 <a href="{{ route('track') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-500 text-navy text-sm font-bold rounded-full">
                     Track shipment <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
                 </a>
@@ -128,6 +133,8 @@
             </div>
         </div>
     </footer>
+
+    @include('components.chat-widget')
 
     <script src="{{ asset('vendor/lucide.min.js') }}"></script>
     <script>
